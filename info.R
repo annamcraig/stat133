@@ -1,0 +1,5 @@
+name = "Xi Chen"
+SID = "22824137"
+email = "c.xi@berkeley.edu"
+github_name = "neocxi"
+status = "enrolled"
