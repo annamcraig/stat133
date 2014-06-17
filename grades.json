@@ -1,0 +1,17 @@
+{
+    "email": "c.xi@berkeley.edu", 
+    "github_name": "neocxi", 
+    "grades": {
+        "lab2": {
+            "earned": 10, 
+            "hash": "80b23aca69f6f2c335901e716279e3e255261ef7", 
+            "note": "", 
+            "penalty": 0, 
+            "possible": 10
+        }
+    }, 
+    "login": "neocxi", 
+    "name": "Xi Chen", 
+    "status": "enrolled", 
+    "url": "git@github.com:neocxi/stat133.git"
+}
