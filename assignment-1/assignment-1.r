@@ -40,9 +40,7 @@ load('assignment-1-3.Rda')
 toCelcius <- function(temp.far) {
     # This function should take a vector of Farenheit temperature values
     # <temp.far> and return the values of each entry in Celcius
-
-    #your code here
-
+    5/9 * (temp.far - 32)
 }
 
 
@@ -72,13 +70,14 @@ calculateS <- function(data, selected.year, selected.day) {
         stop('invalid date')
     
     #your code here
-    
+    entry = data[data$year == selected.year & data$day == selected.day, ]
+    (entry$max - entry$min) / entry$mean 
 }
 
 
 tryCatch(
     checkEquals(calculateS(temperature.data, 2009, 28), 0.4807155,
-                tolerance=.Machine$double.eps^0.3), error = function(err) errmsg(err)
+                tolerance=.Machine$double.eps^0.3), error = function(err) errmsg(err) # note this lambda is redundant
 )
 
 tryCatch(
@@ -97,10 +96,13 @@ tryCatch(
 #<subset.2010>, <temp.differences>, <max.difference>, and <max.difference.day>.
 
 #subset.2010 <- #your code here
+subset.2010 = temperature.data[temperature.data$year == 2010, ]
 #temp.differences <- #your code here
+temp.differences = subset.2010$max - subset.2010$min
 #max.differences <- #your code here
+max.differences = max(temp.differences)
 #max.differences.day <- #your code here
-
+max.differences.day = subset.2010$day[temp.differences == max.differences]
 
 # --------------------------------------------------------------
 # Problem 2 - b
@@ -112,7 +114,10 @@ tryCatch(
     
 #your code here
 #mean.low.above <- #your code here
+cutoff = as.numeric(quantile(temperature.data$max, probs = 0.65))
+mean.low.above = mean(temperature.data$min[temperature.data$max > cutoff])
 #mean.low.below <- #your code here
+mean.low.below = mean(temperature.data$min[temperature.data$max < cutoff])
 
 # --------------------------------------------------------------
 # Problem 3
@@ -127,12 +132,15 @@ tryCatch(
 
 #your code here
 #observed.diets <- #your code here
+inverted = match(observed.animals, animal.key$animal)
+observed.diets = animal.key$diet[inverted]
 #observed.types <- #your code here
+observed.types = animal.key$type[inverted]
 
 # Use your newly created vectors to calculate the total number of observed
 # animals that are both carnivores and mammals.  Store this variable as
 # <carnivore.mammals>
 
 #n.carnivore.mammals <- #your code here
-
+n.carnivore.mammals = sum(observed.diets == "carnivore" & observed.types == "mammal")
     
