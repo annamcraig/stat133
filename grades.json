@@ -2,6 +2,13 @@
     "email": "c.xi@berkeley.edu", 
     "github_name": "neocxi", 
     "grades": {
+        "assignment-1": {
+            "earned": 30, 
+            "hash": "3202c27983630a7fd41dd94c88c5b60b9e846f28", 
+            "note": "", 
+            "penalty": 0, 
+            "possible": 30
+        }, 
         "lab2": {
             "earned": 10, 
             "hash": "80b23aca69f6f2c335901e716279e3e255261ef7", 
