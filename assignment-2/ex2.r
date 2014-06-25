@@ -20,7 +20,10 @@ truncate <- function(input.vector, trim) {
     stopifnot(0<=trim & trim<=0.5)
     
     # your code here
-
+    lower = quantile(input.vector, probs=c(trim))
+    upper = quantile(input.vector, probs=c(1-trim))
+    
+    input.vector[input.vector >= lower & input.vector <= upper]
 }
 
 tryCatch(checkEquals(c(2, 3, 4), truncate(1:5, trim=0.25)), error=function(err)
@@ -50,7 +53,9 @@ tryCatch(checkIdentical(integer(0), truncate(1:6, trim=0.5)),
 standardNormalize <- function(input.vector) {
 
     # your code here
-
+  sn.vector = (input.vector - mean(input.vector)) / sd(input.vector)
+  
+  list(sn.vector, sum(abs(sn.vector) > 3) >= 1)
 }
 
 set.seed(47)

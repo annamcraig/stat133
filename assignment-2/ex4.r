@@ -33,7 +33,9 @@
 avgGoalDiff <- function(data, team.name) {
 
     # your code here
+ row = data[data$team == team.name, ]
  
+ (row$gs - row$ga) / row$gp
 }
 
 # Implement the function "cardFoulRatio" which gives the ratio of cards (red or
@@ -52,7 +54,8 @@ avgGoalDiff <- function(data, team.name) {
 cardFoulRatio <- function(data, team.name) {
 
     # your code here
- 
+  row = data[data$team == team.name, ]
+  (row$rc + row$yc) / row$fouls
 }
 
 # Implement the function "rankAGD" which ranks teams (from highest to lowest)
@@ -70,7 +73,10 @@ cardFoulRatio <- function(data, team.name) {
 rankAGD <- function(data) {
 
     # your code here
-
+  scores = sapply(data$team, FUN=function(name) avgGoalDiff(data, name))
+  print(scores)
+  sorted = sort.int(scores, decreasing = TRUE, index.return=TRUE)
+  data$team[sorted$ix]
 }
 
 # Load the data here. If you want to use the supplied unit tests, you must keep
@@ -81,10 +87,13 @@ rankAGD <- function(data) {
 # "rankAGD" function on this subset and store the variable as <low.cfr.rank>.
 
 # wc.data <- # your code here
+wc.data = read.table("world_cup.data", sep=" ", header=T)
 #cfr.teams <- # your code here
+cfr.teams = sapply(X=wc.data$team, FUN=function(name) cardFoulRatio(wc.data, name))
 #low.cfr.teams <- # your code here
+low.cfr.teams = wc.data[cfr.teams < 0.12, ]
 #low.cfr.rank <- # your code here
-
+low.cfr.rank = rankAGD(low.cfr.teams)
 
 library(RUnit)
 errMsg <- function(err) print(paste('ERROR:', err))

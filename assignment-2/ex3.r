@@ -33,6 +33,8 @@ errMsg <- function(err) print(paste('ERROR:', err))
 smokeDiff <- function(data.subset) {
 
     # your code here
+  smoking.ind = data.subset$smoke == 1
+  (mean(data.subset$bwt[smoking.ind]) - mean(data.subset$bwt[!smoking.ind])) / sd(data.subset$bwt)
 
 }
 
@@ -58,7 +60,10 @@ smokeDiff <- function(data.subset) {
 heavyDiff <- function(data.subset, weight.cutoff) {
 
     # your code here
-
+  bwt = data.subset$bwt
+  heavier.ind = data.subset$weight > weight.cutoff
+  
+  (mean(bwt[heavier.ind]) - mean(bwt[!heavier.ind])) / sd(bwt)
 }
 
 # Implement the function "superSubset". This function should take the data set
@@ -100,7 +105,9 @@ superSubset <- function(data, max.height, max.weight, max.age, parity) {
 
 
 # babies.data <- load the data here
+babies.data = read.table('babies.csv', sep=',', header=T)
 # mothers.subset <- # your code here
+mothers.subset = babies.data[superSubset(babies.data, max.height=65, max.weight=150, max.age=30, parity=0), ]
 # subset.diff <- # your code here
 
 # tests for smokeDiff

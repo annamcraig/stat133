@@ -20,7 +20,9 @@
 readRemove <- function(file.name, max.na=0, sep=',', header=F) {
 
     # your code here
-    
+  raw = read.table(file.name, header=header, sep=sep)
+  # we go mythical here
+  raw[apply(apply(raw, FUN=is.na, MARGIN=c(1,2)), FUN=sum, MARGIN=c(1)) <= max.na, ]
 }
 
 load('ex1_tests.Rda')
