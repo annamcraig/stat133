@@ -40,15 +40,17 @@ status.trim.means = rbind(non_cancer.trim.means, cancer.trim.means)
 # boxplot of each patient's gene expression levels. Patients without prostate
 # cancer should be colored blue while patents with should be colored red. Set
 # the pch parameter to '.'.
-boxplt = function(x) {
-  cols=c("red","blue")
+boxplt = function(x, status) {
+  cols=c("blue","red")
   boxplot(x,
-          main="GSE349",
-          xlab="Subject",
-          ylab="Log-intensity of filtered genes",
-          col=cols[status])
-  legend("topleft", levels(status), fill=cols)
+          main="s",
+          col=cols[as.integer(status)])
 }
+
+ind = 2
+obs = prost.data[, ind]
+status = colnames(prost.data)[ind]
+boxplt(obs, status)
 # your code here
 
 # Suppose we want to remove any gene that has an unusually low expression level
