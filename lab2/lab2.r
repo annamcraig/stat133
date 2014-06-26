@@ -48,8 +48,8 @@ boxplt = function(x, status) {
 }
 
 
-par(mfrow=c(4,25), mar=c(0,0,0,0))
-for (ind in 1:100) {
+par(mfrow=c(2,51), mar=c(0,0,0,0))
+for (ind in 1:102) {
 obs = prost.data[, ind]
 status = colnames(prost.data)[ind]
 boxplt(obs, status)
