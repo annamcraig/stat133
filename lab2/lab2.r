@@ -17,6 +17,7 @@ load('prostatedata.Rda')
 # these patients are there?
 
 # n.prostate <- # your code here
+n.prostate = sum(colnames(prost.data) == "2")
 
 # Suppose we're interested in the mean of the expression levels for each gene,
 # broken down by cancer status. Please create a 2 x 1000 matrix giving the
@@ -25,17 +26,29 @@ load('prostatedata.Rda')
 # (i.e. the entry of row one column one should be the expression level of the
 # gene from the first row averaged over all patients without prostate
 # cancer). Do the same for a trimmed mean with trim parameter of 0.1.
-
+cancer.means = t(apply(X=prost.data[, colnames(prost.data) == "2"], FUN=mean, MARGIN=c(1)))
+non_cancer.means = t(apply(X=prost.data[, colnames(prost.data) == "1"], FUN=mean, MARGIN=c(1)))
 # status.means <- # your code here
+status.means = rbind(non_cancer.means, cancer.means)
 # status.trim.means <- # your code here
-
+cancer.trim.means = t(apply(X=prost.data[, colnames(prost.data) == "2"], FUN=mean, MARGIN=c(1), trim=0.1))
+non_cancer.trim.means = t(apply(X=prost.data[, colnames(prost.data) == "1"], FUN=mean, MARGIN=c(1, trim=0.1)))
+status.trim.means = rbind(non_cancer.trim.means, cancer.trim.means)
 
 # Back to the original dataset. We are interested in looking at the distribution
 # of expression levels for each patient. Produce a a single plot containing a
 # boxplot of each patient's gene expression levels. Patients without prostate
 # cancer should be colored blue while patents with should be colored red. Set
 # the pch parameter to '.'.
-
+boxplt = function(x) {
+  cols=c("red","blue")
+  boxplot(x,
+          main="GSE349",
+          xlab="Subject",
+          ylab="Log-intensity of filtered genes",
+          col=cols[status])
+  legend("topleft", levels(status), fill=cols)
+}
 # your code here
 
 # Suppose we want to remove any gene that has an unusually low expression level
@@ -64,6 +77,8 @@ load('prostatedata.Rda')
 quantileCutoff <- function(data, q.cutoff, max.low.expr) {
 
     # your code here
+  cutoff = quantile(data, probs=c(q.cutoff))
+  which(apply(X=data < cutoff, FUN=sum, MARGIN=c(1)) > max.low.expr)
 }
 
 tryCatch(checkEquals(quantile.cutoff.t, quantileCutoff(test.data, 0.25, 10)),
@@ -91,6 +106,18 @@ tryCatch(checkEquals(quantile.cutoff.t, quantileCutoff(test.data, 0.25, 10)),
 tConvert <- function(gene) {
 
     # your code here
+  non.cancer = (colnames(prost.data) == "1")
+  non.cancer.data = gene[non.cancer]
+  cancer.data = gene[!non.cancer]
+  
+  n.1 = sum((colnames(prost.data) == "1"))
+  n.2 = sum(!(colnames(prost.data) == "1"))
+  s.1 = sd(non.cancer.data)
+  s.2 = sd(cancer.data)
+  
+  s.12 = sqrt( ((n.1 - 1)*s.1^2 + (n.2 - 1)*s.2^2)/(n.1 + n.2 - 2) )
+  (mean(non.cancer.data) - mean(cancer.data))/(s.12 * sqrt(1/n.1 + 1/n.2))
+  
 }
 
 tryCatch(checkEquals(0.5889667, unname(tConvert(test.data[1, ])),
@@ -116,6 +143,7 @@ tryCatch(checkEquals(0.5889667, unname(tConvert(test.data[1, ])),
 pValConverter <- function(data) {
 
     # your code here
+  apply(X=data, FUN=function(gene) (1-pt(abs(tConvert(gene)), df=100))*2, MARGIN=c(1))
 }
 
 tryCatch(checkEquals(p.val.converter.t, pValConverter(test.data)),
@@ -132,7 +160,11 @@ tryCatch(checkEquals(p.val.converter.t, pValConverter(test.data)),
 # each bin.
 
 # your code here
-
+pvs = pValConverter(prost.data)
+pvs.hist = hist(pvs, breaks=20, plot=F)
+pvs.hist$counts = pvs.hist$counts / sum(pvs.hist$counts)
+plot(pvs.hist, main="Prostate Data p-values", xlab="p-values", ylim=c(0,1), ylab="prob")
+abline(h=1, col="red")
 
 # You should notice that your histogram contains a spike for the lowest
 # p-values. Some of these represent discoveries (i.e. genes whose expression
@@ -158,6 +190,8 @@ tryCatch(checkEquals(p.val.converter.t, pValConverter(test.data)),
 FDR <- function(data, alpha) {
 
     # your code here
+  sup = pValConverter(data) < alpha
+  length(sup) * alpha / sum(sup)
 }
 
 tryCatch(checkEquals(0.1923077, FDR(prost.data[1:500, ], 0.005), tolerance=1e-6),
