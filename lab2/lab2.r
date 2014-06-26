@@ -47,10 +47,13 @@ boxplt = function(x, status) {
           col=cols[as.integer(status)])
 }
 
-ind = 2
+
+par(mfrow=c(4,25), mar=c(0,0,0,0))
+for (ind in 1:100) {
 obs = prost.data[, ind]
 status = colnames(prost.data)[ind]
 boxplt(obs, status)
+}
 # your code here
 
 # Suppose we want to remove any gene that has an unusually low expression level
