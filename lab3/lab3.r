@@ -36,11 +36,23 @@ load('lab3-tests.rda')
 #   (black) and smokers (red). Do not worry about any other parameters for
 #   the plot.
 
-stratifiedTest <- function(data, group.variable, group.cutoff) {
+stratifiedTest <- function(data, group.variable, group.cutoff, test.alternative="less") {
 
     stopifnot(group.variable %in% names(data)[2:6]) 
 
     # your code here
+    below.ind = data[, group.variable] <= group.cutoff
+    group.1 = data[below.ind, ]
+    group.2 = data[!below.ind, ]
+    group.1.smoking.ind = group.1$smoke == 1
+    group.2.smoking.ind = group.2$smoke == 1
+    t.test.1 = t.test(group.1$bwt[group.1.smoking.ind], group.1$bwt[!group.1.smoking.ind], alternative=test.alternative)
+    t.test.2 = t.test(group.2$bwt[group.2.smoking.ind], group.2$bwt[!group.2.smoking.ind], alternative=test.alternative)
+    
+    list(
+      c(t.test.1$statistic, t.test.1$p.value),
+      c(t.test.2$statistic, t.test.2$p.value)
+    )
 }
 
 output.t1 <- stratifiedTest(babies.data, "height", 64)
