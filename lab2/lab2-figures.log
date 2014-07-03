@@ -1,0 +1,13 @@
+ERROR:root:(2 points) Checking Is the boxplot correctly colored?
+ERROR:root:... Expecting: False
+ERROR:root:... But got:   n
+ERROR:root:(2 points) Checking Is the pch parameter set to '.'?
+ERROR:root:... Expecting: False
+ERROR:root:... But got:   n
+ERROR:root:(2 points) Checking Is the histogram normalized?
+ERROR:root:... Expecting: False
+ERROR:root:... But got:   n
+ERROR:root:(2 points) Checking Is there a red horizontal line at y=1?
+ERROR:root:... Expecting: False
+ERROR:root:... But got:   n
+INFO:root:You got a 0 out of 8.
