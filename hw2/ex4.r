@@ -36,6 +36,31 @@ load('ex4-tests.rda')
 identifyDuplicates <- function(data) {
 
     # your code here
+  cols = as.integer(seq(dim(data)[2]))
+  f = function(prev.out, rest.cols) {
+    if (length(rest.cols) == 1) {
+      return(prev.out)
+    }
+     
+    cur = rest.cols[1]
+    rest = rest.cols[2:length(rest.cols)]
+    
+    dups = as.logical(lapply(rest, FUN=function(col) {identical(data[, cur], data[, col])}))
+    if (sum(dups) != 0) {
+    accm = rbind(
+      prev.out,
+      cbind(cur,
+           rest[dups]
+      )
+    )
+    f(accm, rest)
+    } else {
+      f(prev.out, rest)
+    }
+
+  }
+  
+  unname(f(integer(0), cols))
 }
     
 tryCatch(checkEquals(numeric(0), identifyDuplicates(ex4.test1)),

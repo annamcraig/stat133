@@ -19,7 +19,12 @@ load('ex1-tests.rda')
 
 outlierCutoff <- function(data) {
     # your code here
-    
+  data.iqr = apply(X=data, FUN=IQR, MARGIN=c(2))
+  data.median = apply(X=data, FUN=median, MARGIN=c(2))
+  rbind(
+    data.median - 1.5 * data.iqr,
+    data.median + 1.5 * data.iqr
+  )
 }
 
 tryCatch(checkIdentical(outlier.cutoff.t, outlierCutoff(ex1.test)),
@@ -51,6 +56,14 @@ removeOutliers <- function(data, max.outlier.rate) {
     stopifnot(max.outlier.rate>=0 & max.outlier.rate<=1)
     
     # your code here
+    cutoffs = outlierCutoff(data)
+    fractions = apply(
+      X=apply(X=data, FUN=function(row) {row < cutoffs[1,] | row > cutoffs[2,]}, MARGIN=c(1)),
+      FUN=sum,
+      MARGIN=c(2)
+    ) / dim(data)[2]
+    
+    data[fractions <= max.outlier.rate, ]
 }
 
 tryCatch(checkIdentical(remove.outlier.t, removeOutliers(ex1.test, 0.25)),

@@ -21,6 +21,12 @@ load('ex3-tests.rda')
 meanByLevel <- function(data) {
 
     # your code here
+  level.col.ind = as.logical(lapply(X=colnames(data), FUN=function(col) !is.numeric(data[1, col])))
+  levels = unique(data[, level.col.ind])
+  non.level.data = data[, !level.col.ind]
+  temp = t(sapply(X=levels, function(level) {apply(X=non.level.data[data[, level.col.ind] == level,], FUN=mean, MARGIN=c(2))}))
+  rownames(temp) = levels
+  temp
 }
 
 tryCatch(checkIdentical(mean.by.level.t, meanByLevel(iris)), error=function(err)
@@ -49,6 +55,12 @@ tryCatch(checkIdentical(mean.by.level.t, meanByLevel(iris)), error=function(err)
 stdLevelDiff <- function(data) {
 
     # your code here
+  level.col.ind = as.logical(lapply(X=colnames(data), FUN=function(col) !is.numeric(data[1, col])))
+  levels = unique(data[, level.col.ind])
+  non.level.data = data[, !level.col.ind]
+  means = apply(X=non.level.data, FUN=mean, MARGIN=c(2))
+  stds = apply(X=non.level.data, FUN=sd, MARGIN=c(2))
+  t(apply(X=meanByLevel(data), FUN=function(row) { (row - means) / stds }, MARGIN=c(1)))
 }
 
 tryCatch(checkIdentical(std.level.diff.t, abs(stdLevelDiff(iris))),

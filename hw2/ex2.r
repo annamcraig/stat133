@@ -23,6 +23,7 @@ load('ex2-tests.rda')
 simpleNormSim <- function(means, sim.size=50, var=1) {
 
     # your code here
+  lapply(X=means, FUN=function(mean) rnorm(sim.size, mean=mean, sd=sqrt(var)))
 }
 
 set.seed(47)
@@ -55,6 +56,7 @@ advancedNormSim <- function(sim.sizes, means, vars) {
 
     stopifnot(all.equal(length(sim.sizes), length(means), length(vars)))
     # your code here
+    lapply(X=seq_along(sim.sizes), FUN=function(i) { rnorm(sim.sizes[i], mean=means[i], sd=sqrt(vars[i]))})
 }   
 
 sizes.t <- c(25, 50, 25, 50)
