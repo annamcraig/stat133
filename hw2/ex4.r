@@ -60,10 +60,16 @@ identifyDuplicates <- function(data) {
 
   }
   
-  unname(f(integer(0), cols))
+  out = unname(f(integer(0), cols))
+  
+  if (length(out) != 0) {
+    out
+  } else {
+    numeric(0)
+  }
 }
     
-tryCatch(checkEquals(numeric(0), identifyDuplicates(ex4.test1)),
+tryCatch(checkIdentical(numeric(0), identifyDuplicates(ex4.test1)),
          error=function(err) errMsg(err))
 tryCatch(checkIdentical(identify.duplicates.t, identifyDuplicates(ex4.test2)),
          error=function(err) errMsg(err))
