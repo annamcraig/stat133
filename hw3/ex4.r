@@ -20,6 +20,22 @@ load('ex4-tests.rda')
 # your x-axis to be 20, 100. You will need to read in the data to do this.
 
 # your code here *
+data = read.csv(file="Cancer.csv", header=T)
+cyl.f <- factor(data$TRT, levels= c(0, 1),
+                labels = c("0 control", "1 treatment"))
+# sm.density.compare(data$AGE, data$TRT, xlab="Miles Per Gallon")
+# title(main="MPG Distribution by Car Cylinders")
+
+
+plot(x=NULL, type="l", xlim=c(20, 100), xlab="age", main="Patient age by group")
+by(data, data$TRT, FUN=function(data) {
+  par(new=TRUE);
+  if (data$TRT[1] == 0)
+    col = "blue"
+  else
+    col = "red"
+  polygon(density(data$AGE), col=col)
+  })
 
 # Produce four plots in the same window comparing the control and treatment
 # group oral conditions at each period (initial, 2wk, 4wk, 6wk). These

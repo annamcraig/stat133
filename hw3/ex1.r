@@ -18,6 +18,7 @@ load('ex1-tests.rda')
 returnFalse <- function(data.vector, logical.vector) {
 
     # your code here *
+  data.vector[!logical.vector]
 }
 
 tryCatch(checkEquals(return.false.t, returnFalse(ex1.test1.data,
@@ -39,6 +40,7 @@ tryCatch(checkEquals(return.false.t, returnFalse(ex1.test1.data,
 returnNonIdcs <- function(data.vector, idcs) {
 
     # your code here *
+  data.vector[setdiff(1:length(data.vector), idcs)]
 }
 
 tryCatch(checkEquals(return.non.idcs.t, returnNonIdcs(ex1.test1.data,
@@ -63,6 +65,7 @@ tryCatch(checkEquals(return.non.idcs.t, returnNonIdcs(ex1.test1.data,
 subsetDfIdcs <- function(data, observation.idcs, variable.idcs) {
 
     # your code here *
+  data[observation.idcs, variable.idcs]
 }
 
 tryCatch(checkEquals(subset.df.idcs.t, subsetDfIdcs(iris, 1:100, 1:3)),
@@ -87,6 +90,7 @@ tryCatch(checkEquals(subset.df.idcs.t, subsetDfIdcs(iris, 1:100, 1:3)),
 subsetDfName <- function(data, non.observations, non.names) {
 
     # your code here **
+  subsetDfIdcs(data, returnNonIdcs(1:dim(data)[1], non.observations), setdiff(colnames(data), non.names))
 }
 
 tryCatch(checkEquals(subset.df.name.t, subsetDfName(iris, 1:50, "Species")),
