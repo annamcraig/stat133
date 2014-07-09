@@ -11,6 +11,7 @@ errMsg <- function(err) print(err)
 
 num.factors = function(d) {
     # your code here
+  sum(sapply(d[1, ], class) == "factor")
 }
 
 first = data.frame(x=rnorm(10), y=as.factor(1:10))
