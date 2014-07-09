@@ -1,5 +1,5 @@
 library(RUnit)
-errMsg <- function(err) print(err)
+errMsg <- function(a) (function(err) print(err))(a)
 load('ex2-tests.rda')
 
 # Implement the function "colSorter". Your function should take the
@@ -16,6 +16,7 @@ load('ex2-tests.rda')
 colSorter <- function(data.matrix) {
 
     # your code here **
+  data.matrix[order(data.matrix[, 1], data.matrix[, 2]), ]
 }
 
 tryCatch(checkEquals(col.sorter.t, colSorter(ex2.test1)),
@@ -37,6 +38,7 @@ tryCatch(checkEquals(col.sorter.t, colSorter(ex2.test1)),
 rowSorter <- function(data.matrix) {
 
     # your code here **
+  t(apply(X=data.matrix, 1, FUN=function(row) row[order(row, decreasing=T)]))
 }
 
 tryCatch(checkEquals(row.sorter.t, rowSorter(ex2.test2)),
@@ -61,6 +63,8 @@ tryCatch(checkEquals(row.sorter.t, rowSorter(ex2.test2)),
 factorSorter <- function(data, sort.name) {
 
     # your code here ***
+  factor = data[, sapply(data[1, ], FUN=is.factor)]
+  by(data, factor, FUN=rowSorter)
 }
 
 tryCatch(checkEquals(factor.sorter.t, factorSorter(iris, 'Sepal.Length')),

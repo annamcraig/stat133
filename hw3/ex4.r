@@ -20,6 +20,20 @@ load('ex4-tests.rda')
 # your x-axis to be 20, 100. You will need to read in the data to do this.
 
 # your code here *
+data = read.csv(file="Cancer.csv", header=T)
+
+# sm.density.compare(data$AGE, data$TRT, xlab="Miles Per Gallon")
+# title(main="MPG Distribution by Car Cylinders")
+
+plot(x=NULL, type="l", ylim=c(0,1), xlim=c(20, 100), xlab="age", main="Patient age by group")
+by(data, data$TRT, FUN=function(data) {
+  par(new=TRUE);
+  if (data$TRT[1] == 0)
+    col = "black"
+  else
+    col = "red"
+  polygon(density(data$AGE), col=col)
+  })
 
 # Produce four plots in the same window comparing the control and treatment
 # group oral conditions at each period (initial, 2wk, 4wk, 6wk). These
@@ -31,7 +45,44 @@ load('ex4-tests.rda')
 # NOTE: These plots wil look super wierd, don't worry about that.
 
 # your code here ***
+par(mfrow=c(2, 2))
+plot(x=NULL, type="l", ylim=c(0, 0.6), xlim=c(20, 100), ylab="condition", xlab="age", main="Patient age by group")
+by(data, data$TRT, FUN=function(data) {
+  par(new=TRUE);
+  if (data$TRT[1] == 0)
+    col = "blue"
+  else
+    col = "red"
+  polygon(density(data$TOTALCIN), col=col)
+  })
 
+plot(x=NULL, type="l", ylim=c(0, 0.6), xlim=c(20, 100), ylab="condition", xlab="age", main="Patient age by group")
+by(data, data$TRT, FUN=function(data) {
+  par(new=TRUE);
+  if (data$TRT[1] == 0)
+    col = "blue"
+  else
+    col = "red"
+  polygon(density(data$TOTALCW2), col=col)
+  })
+plot(x=NULL, type="l", ylim=c(0, 0.6), xlim=c(20, 100), ylab="condition", xlab="age", main="Patient age by group")
+by(data, data$TRT, FUN=function(data) {
+  par(new=TRUE);
+  if (data$TRT[1] == 0)
+    col = "blue"
+  else
+    col = "red"
+  polygon(density(data$TOTALCW4), col=col)
+  })
+plot(x=NULL, type="l", ylim=c(0, 0.6), xlim=c(20, 100), ylab="condition", xlab="age", main="Patient age by group")
+by(data, data$TRT, FUN=function(data) {
+  par(new=TRUE);
+  if (data$TRT[1] == 0)
+    col = "blue"
+  else
+    col = "red"
+  polygon(density(data$TOTALCW6), col=col)
+  })
 
 # Load in the "babies.csv" dataset for this problem. Implement the function
 # "testGroupsGestation" that takes the following arguments:
@@ -57,7 +108,9 @@ testGroupsGestation <- function(data, group1.idcs, group2.idcs,
 
     stopifnot(!any(group1.idcs %in% group2.idcs))
 
-    # your code here **
+  group1 = data[group1.idcs, ]
+  group2 = data[group2.idcs, ]
+  t.test(group1$gestation, group2$gestation, alternative=test.alternative)
 }
 
 tryCatch(checkEquals(test.groups.gestation.t,
@@ -70,7 +123,11 @@ tryCatch(checkEquals(test.groups.gestation.t,
 # variable as <smoking.test>
 
 # your code here *
+babies = read.csv("babies.csv", header=T)
 #smoke.idcs <- your code here
+smoke.idcs <- which(babies$smoke == 1)
 #non.smoke.idcs <- your code here
+non.smoke.idcs =  which(babies$smoke == 0)
 #smoking.test <- your code here
+smoking.test = testGroupsGestation(babies, smoke.idcs, non.smoke.idcs, "less")
 
