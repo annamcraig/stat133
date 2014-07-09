@@ -24,6 +24,7 @@ errMsg <- function(err) print(err)
 
 flip.sum = function(n=10) {
     # your code here
+  sum(sample(1:6, size=n, replace=T))
 }
 
 set.seed(47)
@@ -41,3 +42,5 @@ tryCatch(checkEquals(sums, c(flip.sum(5), flip.sum(5), flip.sum(5))),
 # to plot the density (not the counts) and set the breaks to 50. 
 
 # your code here
+data = replicate(10000, expr=flip.sum())
+hist(data, freq=F, breaks=50)
