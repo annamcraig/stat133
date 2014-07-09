@@ -34,6 +34,7 @@ tryCatch(checkEquals(2, num.factors(second)),
 
 num.factors2 = function(l) {
     # your code here
+  sum(sapply(l, num.factors))
 }
 
 list1 = list(first, second)
@@ -60,6 +61,11 @@ tryCatch(checkEquals(4, num.factors2(list2)),
 
 sum.or.product = function(x, y=10) {
     # your code here
+  if (all(x > y)) {
+    x + y
+  } else {
+    x * y
+  }
 }
 
 x=1:10
@@ -89,6 +95,12 @@ tryCatch(checkEquals(x+y, sum.or.product(x,y)),
 
 odd = function(x, flip=FALSE) {
     # your code here
+  out = (x %% 2) == 1
+  if (flip) {
+    !out
+  } else {
+    out
+  }
 }
 
 xs = c(rep(1,5),rep(2,5))
@@ -113,6 +125,14 @@ tryCatch(checkEquals(!os, odd(xs, flip=TRUE)),
 
 sum.adm = function(x, na.rm=FALSE){
     # your code here
+  data = NULL
+  if (na.rm) {
+    data = x[!is.na(x)]
+  } else {
+    data = x
+  }
+  
+  sum(abs(data - median(data)))
 }
 
 x = 1:3
