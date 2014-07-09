@@ -64,7 +64,7 @@ factorSorter <- function(data, sort.name) {
 
     # your code here ***
   factor = data[, sapply(data[1, ], FUN=is.factor)]
-  by(data, factor, FUN=rowSorter)
+  by(data, factor, FUN=function(matrix) matrix[order(matrix[, sort.name], decreasing=F), ])
 }
 
 tryCatch(checkEquals(factor.sorter.t, factorSorter(iris, 'Sepal.Length')),
