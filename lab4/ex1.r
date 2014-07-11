@@ -31,7 +31,18 @@ poisProc <- function(rate, t) {
 
     # your code here
 
-
+#   n = 0
+#   elapsed = 0
+#   repeat {
+#     arrival = rexp(n=1, rate=rate)
+#     elapsed = elapsed + arrival
+#     if (elapsed > t) {
+#       return(n)
+#     } else {
+#       n = n + 1
+#     }
+#   }
+  qpois(runif(n=1), lambda=rate * t)
 }
 
 set.seed(47)
@@ -54,6 +65,7 @@ tryCatch(checkEquals(10, poisProc(0.5, 10)), error=function(err)
 poisSim <- function(rate, time.intervals=1) {
 
     # your code here
+  sapply(time.intervals, poisProc, rate=rate)
 
 }
 
@@ -71,8 +83,9 @@ tryCatch(checkEquals(c(2, 0, 1, 2, 1), poisSim(0.25, 1:5)),
 set.seed(47)
 
 # times <- your code here
+times = c(0.5, 1, 1.5, 2)
 # simulations <- your code here
-
+simulatations = replicate(10000, expr=poisSim(10, times))
 
 # In a single plotting window, create the following: one histogram of the
 # number of arrivals for each time interval (row of <simulations>).  The
@@ -85,4 +98,6 @@ set.seed(47)
 # to the time interval of the histogram
 # HINT: it may be easiest to turn your simulations matrix into a list (w/
 # one entry per row) and use mapply
-
+max.arrival = max(simulatations)
+par(mfrow=c(2,2))
+sapply(1:4, function(x) {hist(simulatations[x, ], freq=F, xlim=c(0,max.arrival),xlab="arrivals", main=NULL)})
