@@ -52,6 +52,39 @@
             "penalty": 0, 
             "possible": 30
         }, 
+        "hw3": {
+            "earned": 20, 
+            "hash": "87a0e85a8c2e39464353db29822585d91893b1e1", 
+            "note": "", 
+            "parts": {
+                "ex1": {
+                    "earned": 4, 
+                    "possible": 4
+                }, 
+                "ex2": {
+                    "earned": 2, 
+                    "possible": 4
+                }, 
+                "ex3": {
+                    "earned": 4, 
+                    "possible": 5
+                }, 
+                "ex4": {
+                    "earned": 1, 
+                    "possible": 1
+                }, 
+                "ex4_fig": {
+                    "earned": 6, 
+                    "possible": 11
+                }, 
+                "ex5": {
+                    "earned": 3, 
+                    "possible": 5
+                }
+            }, 
+            "penalty": 0, 
+            "possible": 30
+        }, 
         "lab0": {
             "earned": 10, 
             "hash": "80b23aca69f6f2c335901e716279e3e255261ef7", 
