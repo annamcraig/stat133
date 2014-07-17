@@ -78,8 +78,12 @@ tryCatch(checkEquals(clust.label.t, clustLabel(iris, k=3)),
 evalClusters <- function(data, true.labels, norm='euclidean', k) {
 
     # your code here
-  clustLabel(data, norm=norm, k=k)
-
+  cluster.idcs = clustLabel(data, norm=norm, k=k)
+  sapply(1:k, function(group) {
+    labs = true.labels[cluster.idcs == group]
+    top = names(which.max(table(labs)))
+    sum(labs == top) / length(labs)
+  })
 }
 
 tryCatch(checkEquals(eval.clusters.t, evalClusters(iris, iris$Species, k=3)),
