@@ -109,8 +109,12 @@ tryCatch(checkEquals(eval.clusters.t, evalClusters(iris, iris$Species, k=3)),
 
 heightCluster <- function(data, norm='euclidean', h, ...) {
     
-    # your code here
-
+  dist = dataDist(data=data, norm=norm)
+  cs = hclust(dist)
+  plot(as.dendrogram(cs), h=h, ...)
+  abline(h=h, col="red")
+  
+  cutree(cs, h=h)
 }
 
 tryCatch(checkEquals(height.cluster.t, heightCluster(iris, h=4, cex=0.2)),
