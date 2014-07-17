@@ -2,6 +2,8 @@ library(RUnit)
 errMsg <- function(err) print(err)
 load('ex1-tests.rda')
 
+library(cluster)
+
 # Implement the function dataDist. Your function should take the following
 # arguments:
 #
@@ -19,10 +21,11 @@ load('ex1-tests.rda')
 dataDist <- function(data, norm='euclidean') {
 
     # your code here
-
+  numeric.idcs = sapply(data[1, ], is.numeric)
+  dist(data[, numeric.idcs], method=norm)
 }
 
-tryCatch(checkEquals(data.dist.t, dataDist(iris)), error=function(err)
+tryCatch(checkEquals(c(data.dist.t), c(dataDist(iris))), error=function(err)
          errMsg(err))
 
 
@@ -45,7 +48,7 @@ tryCatch(checkEquals(data.dist.t, dataDist(iris)), error=function(err)
 clustLabel <- function(data, norm='euclidean', k) {
 
     # your code here
-
+  cutree(hclust(dataDist(data, norm=norm)), k=k)
 }
 
 tryCatch(checkEquals(clust.label.t, clustLabel(iris, k=3)),
@@ -75,6 +78,7 @@ tryCatch(checkEquals(clust.label.t, clustLabel(iris, k=3)),
 evalClusters <- function(data, true.labels, norm='euclidean', k) {
 
     # your code here
+  clustLabel(data, norm=norm, k=k)
 
 }
 
