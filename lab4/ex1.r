@@ -28,21 +28,8 @@ errMsg <- function(err) print(err)
 
 
 poisProc <- function(rate, t) {
-
-    # your code here
-
-#   n = 0
-#   elapsed = 0
-#   repeat {
-#     arrival = rexp(n=1, rate=rate)
-#     elapsed = elapsed + arrival
-#     if (elapsed > t) {
-#       return(n)
-#     } else {
-#       n = n + 1
-#     }
-#   }
-  qpois(runif(n=1), lambda=rate * t)
+  # qpois(runif(n=1), lambda=rate * t)
+  rpois(lambda=rate*t, n=1)
 }
 
 set.seed(47)
