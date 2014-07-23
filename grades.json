@@ -138,6 +138,23 @@
             }, 
             "penalty": 0, 
             "possible": 30
+        }, 
+        "lab4": {
+            "earned": 24, 
+            "hash": "ceb27be47dac43e71591417ed39eb8783121d492", 
+            "note": "", 
+            "parts": {
+                "ex1": {
+                    "earned": 16, 
+                    "possible": 20
+                }, 
+                "ex1_fig": {
+                    "earned": 8, 
+                    "possible": 10
+                }
+            }, 
+            "penalty": 0, 
+            "possible": 30
         }
     }, 
     "login": "neocxi", 
