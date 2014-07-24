@@ -112,7 +112,7 @@ tryCatch(checkEquals(reduce.data.t, reduceData(iris.data, 0.9)),
 #   resulting cluster labels as the variable <cluster.labels.h>
 
 wines = read.csv("wines.csv", header=T)
-wine.reduced = reduceData(wines, 1)
+wine.reduced = reduceData(wines[, 2:ncol(wines)], 1)
 
 set.seed(47)
 cluster.labels.k = kmeans(wine.reduced, centers=3, iter.max=10)$cluster
