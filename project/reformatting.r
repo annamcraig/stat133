@@ -15,22 +15,31 @@ load('reformatting-tests.rda')
 
 makeBinary <- function(response.row, n.responses) {
 
-
+  unlist(mapply(function(i, max) { temp = numeric(max); temp[i] = 1; temp }, response.row, n.responses))
 }
 
 
 tryCatch(checkEquals(make.binary.test1, makeBinary(make.binary.rr1,
-                                                   make.binary.nr))
+                                                   make.binary.nr)),
          error=function(err) errMsg(err))
 
 tryCatch(checkEquals(make.binary.test2, makeBinary(make.binary.rr2,
-                                                   make.binary.nr))
+                                                   make.binary.nr)),
          error=function(err) errMsg(err))
 
 # use your "makeBinary" function to reformat your "ling-data-clean.data"
 # dataset. Store this as a dataframe with variable names and order **as
 # indicated in project1.pdf**. Save this dataframe as the file
 # "binary-ling-data.data".
-    
 
+filtered = read.table("ling-data-clean.data", header=T)
+vars = grep("Q", colnames(filtered), value=T)
+meta = setdiff(colnames(filtered), vars)
+n.responses = apply(filtered[, vars], max, MARGIN=c(2))
+binarified = t(apply(filtered[, vars], makeBinary, MARGIN=c(1), n.responses=n.responses))
+binarified.names = unlist(mapply(function(name, num) sapply(1:num, function(i) paste(name, i, sep=".")), vars, n.responses))
 
+final = cbind(filtered[, meta], binarified)
+colnames(final) = c(meta, binarified.names)
+
+write.table(final, file="binary-ling-data.data", row.names=F)
