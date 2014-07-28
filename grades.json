@@ -172,6 +172,23 @@
             }, 
             "penalty": 0, 
             "possible": 30
+        }, 
+        "lab5": {
+            "earned": 24, 
+            "hash": "51c50beaa400b07d1bfdd3b22be86305dc1927c9", 
+            "note": "", 
+            "parts": {
+                "ex1": {
+                    "earned": 24, 
+                    "possible": 24
+                }, 
+                "ex1_fig": {
+                    "earned": 0, 
+                    "possible": 6
+                }
+            }, 
+            "penalty": 0, 
+            "possible": 30
         }
     }, 
     "login": "neocxi", 
