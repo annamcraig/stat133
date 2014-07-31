@@ -81,7 +81,15 @@ tryCatch(checkEquals(lab7$betaEstimator.t, betaEstimator(lab7$predictors, 4, 4))
 betaVariance <- function(X, var) {
 
     # your code here
-
+  nc = ncol(X)
+  if (is.null(nc))
+    nc = 1
+  nr = nrow(X)
+  if (is.null(nr))
+    nr = length(X)
+  
+  library(MASS)
+  as.numeric(ginv(t(X) %*% X) * var)
 }
 
 tryCatch(checkEquals(lab7$betaVariance.t, betaVariance(lab7$predictors, 4)),
@@ -96,6 +104,15 @@ tryCatch(checkEquals(lab7$betaVariance.t, betaVariance(lab7$predictors, 4)),
 # of beta.hats that are within 2 sd of beta over your 1000 simulations. Store
 # this value as prop.2sd.
 # ***make sure to set your seed to 47 before running your simulations***
+
+set.seed(47)
+predictors = rnorm(100, 0, 1)
+beta = 3
+var = 2
+p.var = betaVariance(predictors, var)
+est = replicate(1000, betaEstimator(X=predictors, betas=beta,var=var))
+beta.hats = est
+prop.2sd = (sum(est > beta + 2*sqrt(p.var)) + sum(beta < beta - 2*sqrt(p.var))) / length(est)
 
 # beta.hats <- your code here
 # prop.2sd <- your code here
