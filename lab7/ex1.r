@@ -17,6 +17,21 @@ load('lab7-tests.rda')
 dataGenerator <- function(X, betas, var) {
 
     # your code here
+  nc = ncol(X)
+  if (is.null(nc))
+    nc = 1
+  nr = nrow(X)
+  if (is.null(nr))
+    nr = length(X)
+  
+  if (length(betas) != nc)
+    stop("length betas does not match p");
+
+  if (is.null(ncol(X))) {
+    as.matrix(sapply(X, function(x) x %*% betas) + rnorm(nr, mean=0, sd=sqrt(var)))
+  } else {
+    as.matrix(apply(X, function(x) x %*% betas + rnorm(1, mean=0, sd=sqrt(var)), MARGIN=c(1)))
+  }
 
 }
 
@@ -37,9 +52,14 @@ tryCatch(checkEquals(lab7$dataGenerator.t, dataGenerator(lab7$predictors, 4, 4))
 # return an estimate of the values of <betas>.
 
 betaEstimator <- function(X, betas, var) {
-
+  nc = ncol(X)
+  if (is.null(nc))
+    nc = 1
+  
     # your code here
-
+  obs = dataGenerator(X, betas, var)
+  fit = lm(obs ~ X) #- 1)
+  fit$coefficients[2:(nc+1)]
 }
 
 set.seed(47)
