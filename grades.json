@@ -223,5 +223,6 @@
     "login": "neocxi", 
     "name": "Xi Chen", 
     "status": "enrolled", 
-    "url": "git@github.com:neocxi/stat133.git"
+    "url": "git@github.com:neocxi/stat133.git", 
+    "type": "students"
 }
