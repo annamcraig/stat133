@@ -20,7 +20,7 @@ load('lab8-tests.rda')
 normalMixture <- function(n1, n2, mu1, var1, mu2, var2) {
 
     # your code here
-
+  c(rnorm(n1, mu1, sqrt(var1)), rnorm(n2, mu2, sqrt(var2)))
 }
 
 set.seed(47)
@@ -43,6 +43,8 @@ tryCatch(checkEquals(lab8$normalMixture.t, output.1),
 logGenerator<- function(X, beta0, beta1) {
 
     # your code here
+  y=beta0+beta1*X
+  1/(1+exp(-y))
 }
 
 set.seed(47)
@@ -62,6 +64,7 @@ tryCatch(checkEquals(lab8$logGenerator.t, output.2), error=function(err)
 toBinom <- function(p) {
 
     # your code here
+  sapply(p, rbinom, n=1, size=1)
 
 }
 
@@ -81,6 +84,7 @@ tryCatch(checkEquals(lab8$toBinom.t, output.3), error=function(err) errMsg(err))
 mae <- function(true.vals, pred.vals) {
 
     # your code here
+  mean(abs(true.vals - pred.vals))
 
 }
 
@@ -106,3 +110,17 @@ tryCatch(checkEquals(1, mae(1:5, 2:6)), error=function(err) errMsg(err))
 
 set.seed(47)
 
+x.vals = normalMixture(n1=50, n2=50, mu1=-1, mu2=1, var1=1, var2=1)
+p.vals = logGenerator(X=x.vals, beta0=0, beta1=5)
+y.vals = toBinom(p.vals)
+model.data = data.frame(x=x.vals, y=y.vals)
+fit.lm = lm(y~x, model.data)
+fit.log = glm(y~x, model.data, family="binomial")
+
+test.x = data.frame(x=x.vals)
+preds.lm = predict(fit.lm, test.x)
+preds.log = predict(fit.log, test.x, type="response")
+mae.lm = mae(preds.lm, p.vals)
+mae.log = mae(preds.log, p.vals)
+mae.lm
+mae.log
