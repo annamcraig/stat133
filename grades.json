@@ -218,6 +218,23 @@
             }, 
             "penalty": 0, 
             "possible": 30
+        }, 
+        "hw5": {
+            "note": "", 
+            "hash": "ab4ac6d70af4cfb91d26d8608533d985af62c2d3", 
+            "earned": 30, 
+            "possible": 30, 
+            "penalty": 0, 
+            "parts": {
+                "ex1_fig": {
+                    "possible": 10, 
+                    "earned": 10
+                }, 
+                "ex1": {
+                    "possible": 20, 
+                    "earned": 20
+                }
+            }
         }
     }, 
     "login": "neocxi", 
