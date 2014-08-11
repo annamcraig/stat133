@@ -278,6 +278,23 @@
                     "earned": 30
                 }
             }
+        }, 
+        "hw7": {
+            "note": "", 
+            "hash": "e8be54a04defd77bee59f559afadadb198fe2b36", 
+            "earned": 30, 
+            "possible": 30, 
+            "penalty": 0, 
+            "parts": {
+                "ex1_fig": {
+                    "possible": 12, 
+                    "earned": 12
+                }, 
+                "ex1": {
+                    "possible": 18, 
+                    "earned": 18
+                }
+            }
         }
     }, 
     "login": "neocxi", 
