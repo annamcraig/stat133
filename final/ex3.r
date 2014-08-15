@@ -36,6 +36,8 @@ load("ex3.rda")
 
 too.many.na = function(df, threshold, axis) {
     # your code here
+  na.data = is.na(df)
+  unname(which(apply(na.data, sum, MARGIN = c(axis)) > (threshold * dim(df)[axis])))
 }
 
 testdf1 = data.frame(1:4, c(NA,1,2,3))
@@ -69,6 +71,9 @@ tryCatch(checkEquals(0, length(too.many.na(testdf1, 0.6, 1))),
 
 outlier.cutoff = function(x, rm.na){
     # your code here
+  qs = quantile(x, na.rm = rm.na)
+  iqr = qs["75%"] - qs["25%"]
+  c(qs["25%"] - 2.5*iqr, qs["75%"] + 2.5*iqr)
 }
 
 set.seed(42)
@@ -97,7 +102,10 @@ tryCatch(checkEquals(cuts, unname(outlier.cutoff(x, TRUE)), tolerance=1e-6),
 # the lower bound) 
 
 remove.outliers = function(df, cuts) {
-    # your code here
+  lwr = cuts[1]
+  upr = cuts[2]
+  remove.ind = apply(df, function(row) { any((row < lwr) | (row > upr)) }, MARGIN = c(1))
+  df[-remove.ind, ]  
 }
 
 # Now you are going to create some new datastructures by calling these functions
@@ -109,6 +117,7 @@ remove.outliers = function(df, cuts) {
 # function too.many.na, which you created above.
 
 # na.indices = your code here
+na.indices = too.many.na(df, threshold = 0, axis = 1)#your code here
 
 # (1 point) Create a dataframe df.no.nas
 #
@@ -116,6 +125,7 @@ remove.outliers = function(df, cuts) {
 # You can use na.indices for this step.
 
 # df.no.nas = your code here
+df.no.nas = df[-na.indices, ] # your code here
 
 # (1 point) Create a matrix cuts
 #
@@ -127,6 +137,7 @@ remove.outliers = function(df, cuts) {
 # [1] 2 4
 
 # cuts = your code here
+cuts = apply(df.no.nas, outlier.cutoff, MARGIN = c(2), rm.na=T) # your code here
 
 # (1 point) Create a dataframe df.clean
 #

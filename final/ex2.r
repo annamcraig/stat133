@@ -15,7 +15,9 @@ load('ex2.rda')
 # respectively
 
 # fit.final = your code here
+fit.final = lm(final ~ hw, grades)
 # fit.labs = your code here
+fit.labs = lm(labs ~ hw, grades) #your code here
 
 
 # (2 points)
@@ -27,6 +29,7 @@ load('ex2.rda')
 # "final" or "labs"
 
 # contant.var.model = your code here
+contant.var.model = "labs" #your code here
 
 
 # (3 points)
@@ -38,8 +41,13 @@ load('ex2.rda')
 # this as the variable <final.r.sq>
 
 # final.slope = your code here
+final.slope = fit.final$coefficients["hw"] # your code here
+
 # labs.intercept = your code here
+labs.intercept = fit.labs$coefficients["(Intercept)"] #your code here
+
 # final.r.sq = your code here
+final.r.sq = summary(fit.final)$r.squared # your code here
 
 # (2 points)
 # Consider a model that predicts an individual's final score using the following
@@ -52,7 +60,14 @@ load('ex2.rda')
 # Please compute the squared residuals for this model (this should be a length
 # 100 numeric vector). Store this as the variable <sq.residuals>.
 
+y.hat = final.slope * 2 * grades$hw
+
+ss.total = sum((grades$final - mean(grades$final))^2)
+ss.reg = sum((y.hat - mean(grades$final))^2)
+ss.res = sum((y.hat - grades$final)^2)
+# sq.residuals = 1 - ss.res/ss.total #your code here
 # sq.residuals = your code here
+sq.residuals = (y.hat - grades$final)^2 # your code here
 
 
 # (3 points)
@@ -62,4 +77,6 @@ load('ex2.rda')
 # respective prediction interval?  Store this as the variable <prop.within>.
 
 # final.pi = your code here
+final.pi = predict.lm(fit.final, grades, interval = "prediction")[, c("lwr", "upr")] # your code here
 # prop.within = your code here
+prop.within = sum((grades$final >= final.pi[, "lwr"]) & (grades$final <= final.pi[, "upr"])) / nrow(grades) # your code here
