@@ -15,19 +15,22 @@ load("ex1.rda")
 # Save this as <df.x>
 
 # df.x = your code here
-
+df.x = df[, c("x1", "x2", "x3", "x4")]
+  
 ### PCA
 
 # (1 point)
 # Create a prcomp object using the measurement data and call it pca
 
 # pca = your code here
+pca = prcomp(df.x)
 
 # (1 point)
 # Create a matrix pca.x which is the data projected onto it first 2
 # principal components
 
 # pca.x = your code here
+pca.x = pca$x[, 1:2]
 
 
 ## kmeans
@@ -38,6 +41,7 @@ load("ex1.rda")
 
 set.seed(42)
 # km = your code here
+km = kmeans(pca.x, centers = 5, nstart = 30)
 
 # Now using <km>, which you just made, you will need to create
 # several more variables.  Save the labels prouced for each
@@ -46,8 +50,11 @@ set.seed(42)
 # cluster as <km.counts>.
 
 # km.lables = your code here
+km.lables = km$cluster
 # km.centers = your code here
+km.centers = km$centers #your code here
 # km.counts = your code here
+km.counts = km$size # your code here
 
 ## Plots
 
@@ -65,3 +72,7 @@ set.seed(42)
 # on top as 'x's. Use any colors for your plots
 
 # your code here
+par(mfrow = c(1,2))
+colors = rainbow(as.numeric(df[, "f"]))
+plot(pca.x[, 1], pca.x[, 2], main="true", col=colors[df[, "f"]])
+plot(pca.x[, 1], pca.x[, 2], main="kmeans", col=colors[km.lables])
