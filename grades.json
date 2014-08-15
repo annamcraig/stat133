@@ -295,6 +295,23 @@
                     "earned": 18
                 }
             }
+        }, 
+        "hw8": {
+            "note": "", 
+            "hash": "f3b1836e969fda9725ac1097ac28074e6f2c02c6", 
+            "earned": 30, 
+            "possible": 30, 
+            "penalty": 0, 
+            "parts": {
+                "ex1_fig": {
+                    "possible": 4, 
+                    "earned": 4
+                }, 
+                "ex1": {
+                    "possible": 26, 
+                    "earned": 26
+                }
+            }
         }
     }, 
     "login": "neocxi", 
