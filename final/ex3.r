@@ -102,9 +102,12 @@ tryCatch(checkEquals(cuts, unname(outlier.cutoff(x, TRUE)), tolerance=1e-6),
 # the lower bound) 
 
 remove.outliers = function(df, cuts) {
-  lwr = cuts[1]
-  upr = cuts[2]
-  remove.ind = apply(df, function(row) { any((row < lwr) | (row > upr)) }, MARGIN = c(1))
+  remove.ind = sapply(1:nrow(df), function(i) { 
+    lwr = cuts[1, i]
+    upr = cuts[2, i]
+    row = df[i, ]
+    any((row < lwr) | (row > upr)) 
+  })
   df[-remove.ind, ]  
 }
 
@@ -137,7 +140,7 @@ df.no.nas = df[-na.indices, ] # your code here
 # [1] 2 4
 
 # cuts = your code here
-cuts = apply(df.no.nas, outlier.cutoff, MARGIN = c(2), rm.na=T) # your code here
+cuts = apply(df.no.nas, outlier.cutoff, MARGIN = c(1), rm.na=T) # your code here
 
 # (1 point) Create a dataframe df.clean
 #
@@ -146,3 +149,4 @@ cuts = apply(df.no.nas, outlier.cutoff, MARGIN = c(2), rm.na=T) # your code here
 # by cuts removed.
 
 # df.clean = your code here
+df.clean = remove.outliers(df.no.nas, cuts) # your code here
